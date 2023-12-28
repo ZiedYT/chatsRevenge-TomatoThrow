@@ -76,6 +76,7 @@ function throwTomato(){
 
 
 function ping(){
+  console.log("ping")
   ws.send('{"type":"PING"}');
-  setTimeout(60000,ping);
+  setTimeout(ping,60000);
 }
