@@ -38,16 +38,18 @@ ws.addEventListener('open', () => {
 
   // var cmd = `{"type":"LISTEN", "data": {"topics": ["channel-points-channel-v1.${broadcasterID}"],"auth_token": "${oauthToken}"}}`;
   // this.ws.send(cmd);
+  ping()
   listen("channel-points-channel-v1"+"."+broadcasterID);
   if(broadcasterID=="46249037")
     listen("chat_moderator_actions"+"."+broadcasterID+"."+broadcasterID);
+
 });
 
 
 function handleMsg(event){
   data = event.data || ""
   topic = data.topic || ""
-  console.log(topic)
+  console.log(event)
   if(topic=="chat_moderator_actions"+"."+broadcasterID+"."+broadcasterID)
     throwTomato()
   else if (topic=="channel-points-channel-v1"+"."+broadcasterID ) {
@@ -70,4 +72,10 @@ function throwTomato(){
   tomatoElement= createTomatoElement(tomato)
   container = document.getElementById("tomatoContainer");
   container.appendChild(tomatoElement);    
+}
+
+
+function ping(){
+  ws.send('{"type":"PING"}');
+  setTimeout(60000,ping);
 }
