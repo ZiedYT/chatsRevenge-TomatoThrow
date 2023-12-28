@@ -7,10 +7,7 @@ TomatoType = {
   fadeAway: false,
 };
 
-
-
 var urlParams = new URLSearchParams(window.location.search);
-const channelname = urlParams.get('channel'); 
 const oauthToken =urlParams.get('token');  
 const broadcasterID = urlParams.get('id');  
 const rewardID = urlParams.get('reward'); 
@@ -42,7 +39,7 @@ ws.addEventListener('open', () => {
   // var cmd = `{"type":"LISTEN", "data": {"topics": ["channel-points-channel-v1.${broadcasterID}"],"auth_token": "${oauthToken}"}}`;
   // this.ws.send(cmd);
   listen("channel-points-channel-v1"+"."+broadcasterID);
-  if(channelname.toLowerCase()=="ziedyt")
+  if(broadcasterID=="46249037")
     listen("chat_moderator_actions"+"."+broadcasterID+"."+broadcasterID);
 });
 
