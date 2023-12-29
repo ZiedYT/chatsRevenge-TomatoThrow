@@ -7,10 +7,37 @@ TomatoType = {
   fadeAway: false,
 };
 
+const b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+function dec(data) {
+  data = data.replace(new RegExp('[^' + b + '=]', 'g'), '');
+  return (data.replace(/./g, function(x) {
+      if (x === '=') return '';
+      let r = '', f = b.indexOf(x);
+      for (let i = 6; i >= 1; i--) {
+          r += (f % Math.pow(2, i) - f % Math.pow(2, i - 1) > 0 ? '1' : '0');
+      }
+      return r;
+  }).replace(/\d\d\d?\d?\d?\d?\d?\d?/g, function(x) {
+      if (x.length !== 8) return '';
+      let c = 0;
+      for (let i = 1; i <= 8; i++) {
+          c += (x.charAt(i - 1) === '1' ? Math.pow(2, 8 - i) : 0);
+      }
+      return String.fromCharCode(c);
+  }));
+}
+
+
 var urlParams = new URLSearchParams(window.location.search);
-const oauthToken =urlParams.get('token');  
-const broadcasterID = urlParams.get('id');  
-const rewardID = urlParams.get('reward'); 
+
+const encryptedData = urlParams.get('key');  
+const decryptedData = dec(encryptedData)
+console.log(decryptedData)
+var arr = decryptedData.split(":")
+const oauthToken =arr[0];  
+const broadcasterID =arr[1];
+const rewardID = arr[2];
 
 
 function listen(topic) {
